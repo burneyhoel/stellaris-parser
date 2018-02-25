@@ -8,9 +8,10 @@ import os
 import sys
 master_key_counter = 0
 all_prereqs = ""
-mod_name = "linear_trees"#need to make argument
+mod_name = "tech_trees_npz"#need to make argument
 from ninetailed.stellaris.techparser import TechParser
 #C:\Python27\python.exe K:\git_repos\project_1\stellaris-parser\main.py F:/SteamLibrary/steamapps/common/Stellaris/common/technology
+#C:\Python27\python.exe K:\git_repos\project_1\stellaris-parser\main.py K:\git_repos\npzeon\common\technology
 areacolors = {"engineering": "orange", "physics": "blue", "society": "green"}
 stellarispath=sys.argv[1] if len(sys.argv) > 1 else "C:/Program Files (x86)/Steam/steamapps/common/Stellaris"
 #modpath=sys.argv[2] if len(sys.argv) > 1 else "F:/SteamLibrary/steamapps/common/Stellaris/common/technology/mod"
@@ -81,7 +82,7 @@ for filename in os.listdir(stellarispath):
                         continue
                     else:
                         Events_file.write("country_event = {\n")
-                        Events_file.write("  id = linear_trees." + repr(master_key_counter) + "\n")
+                        Events_file.write("  id = " + mod_name + "." + repr(master_key_counter) + "\n")
                         Events_file.write("  hide_window = yes\n")
                         Events_file.write("  is_triggered_only = yes\n")
                         Events_file.write("  trigger = { is_ai = no " + all_prereqs + " }\n")
