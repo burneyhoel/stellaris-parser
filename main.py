@@ -41,7 +41,7 @@ for filename in os.listdir(stellarispath):
     events_filename = (filename)
     Events_file = open(events_filename, "w")#triggered scripts
     Events_file.write("namespace = " + mod_name + "\n")
-    On_actions_file.write("		#" + events_filename + ".txt\n")
+    On_actions_file.write("		#" + events_filename + "\n")
     os.chdir(stellarispath)
     with open(filename, "r") as file:
         os.chdir(modpath)
