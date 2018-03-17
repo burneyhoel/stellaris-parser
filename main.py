@@ -8,23 +8,17 @@ import os
 import sys
 master_key_counter = 0
 all_prereqs = ""
-mod_name = "tech_trees_npz"#need to make argument
 from ninetailed.stellaris.techparser import TechParser
-#C:\Python27\python.exe K:\git_repos\project_1\stellaris-parser\main.py F:/SteamLibrary/steamapps/common/Stellaris/common/technology
-#C:\Python27\python.exe K:\git_repos\project_1\stellaris-parser\main.py K:\git_repos\npzeon\common\technology
 areacolors = {"engineering": "orange", "physics": "blue", "society": "green"}
+#stellarispath=sys.argv[1] if len(sys.argv) > 1 else "F:/SteamLibrary/steamapps/common/Stellaris/common/technology"
 stellarispath=sys.argv[1] if len(sys.argv) > 1 else "C:/Program Files (x86)/Steam/steamapps/common/Stellaris"
-#modpath=sys.argv[2] if len(sys.argv) > 1 else "F:/SteamLibrary/steamapps/common/Stellaris/common/technology/mod"
+mod_name=sys.argv[2]
+for x in sys.argv:
+     print "Argument: ", x
 modpath=stellarispath + "/mod"
-#stellarispath = "C:/Program Files (x86)/Steam/steamapps/common/Stellaris"
-#stellarispath = "F:/SteamLibrary/steamapps/common/Stellaris"#need to pass as an argument
-#os.chdir(stellarispath)
 if not os.path.exists(modpath):
     os.makedirs(modpath)
 os.chdir(modpath)
-
-print("graph {")
-print("node [color=\"red\"]") # Use red to mark missing techs
 
 parser = TechParser()
 Unwanted_tech_file = open("Unwanted_tech.txt", "w")#starter tech and repeatables list
@@ -36,9 +30,6 @@ On_actions_file.write("	events = {\n")
 for filename in os.listdir(stellarispath):
     if len(filename) < 5 or filename[-4:] != ".txt":
         continue
-    print("subgraph \"" + filename + "\" {")
-    print(os.path.splitext(filename)[0])
-    #events_filename = ("events." + (os.path.splitext(filename)[0]))
     events_filename = (filename)
     Events_file = open(events_filename, "w")#triggered scripts
     Events_file.write("namespace = " + mod_name + "\n")
@@ -55,12 +46,9 @@ for filename in os.listdir(stellarispath):
             if value["area"] in areacolors:
                 color = areacolors[value["area"]]
                 master_key_counter = master_key_counter + 1
-                print(master_key_counter)
             else:
                 color = "black"
                 master_key_counter = master_key_counter + 1
-                print(master_key_counter)
-            print(key + " [color=\"" + color + "\"]")
             if "start_tech" in value or "is_rare" in value:
                 #we do not want this tech
                 #all level 1 weapons are starter now
@@ -98,6 +86,5 @@ for filename in os.listdir(stellarispath):
                         all_prereqs = ""
                         On_actions_file.write("		" + mod_name + "." + repr(master_key_counter) + " #" + key + "\n")
                         #need to make a list of starter and repeatable techs and use them to skip
-    print("}")
 On_actions_file.write("	}\n")
 On_actions_file.write("}")
